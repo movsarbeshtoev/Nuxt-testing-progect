@@ -1,4 +1,4 @@
-<script lang="ts">
+<script setup lang="ts">
 interface Post {
   id: number
   title: string
@@ -12,27 +12,27 @@ interface Post {
   userId: number
 }
 
-export default {
-    setup(){
+
+    
         const posts= reactive<Post[]>([])
         
         onMounted(async ()=>{
             
-          const response = await fetch("https://dummyjson.com/posts")
+          const response = await fetch("https://dummyjson.com/posts?limit=5")
           const data =await response.json()
           posts.push(...data.posts)
-          console.log(posts);
+          console.log(posts[0]);
           
         })
-    }
-}
-head:{
-    title: 'Posts'}
+    
+
+
 </script>
 
 <template>
     <div>
-        <h1>Posts</h1>
-        <PostItem />
+        <div v-for="post in posts" :key="post.id">
+        <PostItem :post="post"/>
+        </div>
     </div>
 </template>
